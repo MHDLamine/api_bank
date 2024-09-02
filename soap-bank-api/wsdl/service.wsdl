@@ -1,0 +1,63 @@
+<definitions name="BankService"
+    targetNamespace="http://www.example.org/bankservice/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.example.org/bankservice/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://www.example.org/bankservice/">
+            <xsd:element name="getBalanceRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="accountId" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getBalanceResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="balance" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <!-- Define similar request/response elements for getTransactions and transferFunds -->
+        </xsd:schema>
+    </types>
+
+    <message name="getBalanceRequest">
+        <part name="parameters" element="tns:getBalanceRequest"/>
+    </message>
+    <message name="getBalanceResponse">
+        <part name="parameters" element="tns:getBalanceResponse"/>
+    </message>
+    <!-- Define similar messages for getTransactions and transferFunds -->
+
+    <portType name="BankPortType">
+        <operation name="getBalance">
+            <input message="tns:getBalanceRequest"/>
+            <output message="tns:getBalanceResponse"/>
+        </operation>
+        <!-- Define similar operations for getTransactions and transferFunds -->
+    </portType>
+
+    <binding name="BankSoapBinding" type="tns:BankPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getBalance">
+            <soap:operation soapAction="http://www.example.org/bankservice/getBalance"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <!-- Define similar bindings for getTransactions and transferFunds -->
+    </binding>
+
+    <service name="BankService">
+        <port name="BankPort" binding="tns:BankSoapBinding">
+            <soap:address location="http://localhost:8000/wsdl"/>
+        </port>
+    </service>
+</definitions>
